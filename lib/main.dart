@@ -27,6 +27,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+
+
+
+
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -41,13 +47,45 @@ class _MyHomePageState extends State<MyHomePage> {
 
 // tamil computing
 //
+adddata() async{
+FirebaseFirestore.instance.collection("events").doc("sample").set(
+  {
+'name':"seenu",
+'age':"20",
+  }
+);
+
+}
+  fetchdata() async {
+
+    // CollectionReference dataget = FirebaseFirestore.instance.collection("events");
+    // final snap = await dataget.doc("tamil computing").get();
+    // final unitdata = snap.data() as Map<String,dynamic>;
+    // print(unitdata);
+    // print(unitdata['grade']);
+    // print(unitdata['id ']);
+    /* tamil */
+    final dataget = FirebaseFirestore.instance.collection("events").where("name", isEqualTo: "seenu");
+    final snap = await dataget.get() as Map<String,dynamic>;
+    print(snap['name']);
+    // final unitdata = snap.data() as Map<String,dynamic>;
+    
+    // print(snap['grade']);
+    // print(snap['id ']);
+  }
+  
   @override
   Widget build(BuildContext context) {
+
+
+    // CollectionReference dataa = FirebaseFirestore.instance.collection("events");
+    // final snap = dataa.doc("tamil computing").get();
+    
 //     final event = FirebaseFirestore.instance.collection("events").doc("tamil computing").get().then(
 //   (DocumentSnapshot doc) {
 //     final data = doc.data() ;
 
-//     print(data);
+//     print(data.runtimeType);
 
 //   },
 //   onError: (e) => print("Error getting document: $e"),
@@ -57,17 +95,18 @@ class _MyHomePageState extends State<MyHomePage> {
 //   (DocumentSnapshot doc) {
 //     final data = doc.data() as Map<String,dynamic>;
 // Map<String,dynamic> datum =doc.data() as Map<String,dynamic>;
-//     print(data.toString());
+   
+
 //     print( "${data['id']}");
 //     // print( datum['place']);
-
+//  print(data.toString());
 //   },
 //   onError: (e) => print("Error getting document: $e"),
 // );
 
     // var data;
-    final event =
-        FirebaseFirestore.instance.collection("events").snapshots();
+    // final event =
+    //     FirebaseFirestore.instance.collection("events").snapshots();
 
 
     return Scaffold(
@@ -77,52 +116,58 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(child:
-StreamBuilder(
-          stream: FirebaseFirestore.instance.collection("events").snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
-              return const Text('loading hhhdata');
-            } else if (snapshot.hasData) {
-//               return ListView.builder(
-//                 itemCount: snapshot.data!.docs.length,
-//                 itemBuilder: (BuildContext context, int index) {
-//                   // return Text(snapshot.data!.docs[index].toString());
-// var doc = snapshot.data!.docs[index];
-//   var data = doc.data() as Map;
-//   return Text(data as String);
+          children: [
+            ElevatedButton(onPressed: adddata, child: const Text('add')),
+            ElevatedButton(onPressed: fetchdata, child: const Text('get')),
+// fetchdata()
+//             Expanded(child:
+// StreamBuilder(
+//           stream: FirebaseFirestore.instance.collection("events").snapshots(),
+//           builder:
+//               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+//             if (!snapshot.hasData) {
+//               return const Text('loading hhhdata');
+//             } else if (snapshot.hasData) {
+// //               return ListView.builder(
+// //                 itemCount: snapshot.data!.docs.length,
+// //                 itemBuilder: (BuildContext context, int index) {
+// //                   // return Text(snapshot.data!.docs[index].toString());
+// // var doc = snapshot.data!.docs[index];
+// //   var data = doc.data() as Map;
+// //   return Text(data as String);
 
-//                 },
-//               );
+// //                 },
+// //               );
             
-            return ListView(
-          children: snapshot.data!.docs
-              .map((DocumentSnapshot document) {
-                Map<String, dynamic> data =
-                    document.data()! as Map<String, dynamic>;
-                return ListTile(
-                  title: Text(data['name']),
-                  subtitle: Text(data['company']),
-                );
-              })
-              .toList()
-              .cast(),
-        );
+//             return ListView(
+//           children: snapshot.data!.docs
+//               .map((DocumentSnapshot document) {
+//                 Map<String, dynamic> data =
+//                     document.data()! as Map<String, dynamic>;
+//                 return ListTile(
+//                   title: Text(data['name']),
+//                   subtitle: Text(data['company']),
+//                 );
+//               })
+//               .toList()
+//               .cast(),
+//         );
 
 
 
-            }
+//             }
 
-            return const Text('somethng\'s wrong');
-          }),
-        ),
+//             return const Text('somethng\'s wrong');
+//           }),
+//         ),
+         
           ],
         ),
       ),
     );
   }
+  
+  
 }
 
 // import 'package:flutter/material.dart';
