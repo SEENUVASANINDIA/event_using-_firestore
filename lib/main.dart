@@ -48,12 +48,17 @@ class _MyHomePageState extends State<MyHomePage> {
 // tamil computing
 //
 adddata() async{
-FirebaseFirestore.instance.collection("events").doc("sample").set(
+FirebaseFirestore.instance.collection("events").doc("data").set(
   {
 'name':"seenu",
-'age':"20",
+'age':"21",
   }
 );
+
+}
+
+deleteusr ()async {
+FirebaseFirestore.instance.collection("events").doc("data").delete();
 
 }
   fetchdata() async {
@@ -66,8 +71,14 @@ FirebaseFirestore.instance.collection("events").doc("sample").set(
     // print(unitdata['id ']);
     /* tamil */
     final dataget = FirebaseFirestore.instance.collection("events").where("name", isEqualTo: "seenu");
-    final snap = await dataget.get() as Map<String,dynamic>;
-    print(snap['name']);
+    final snap = await dataget.get();
+snap.docs.forEach((doc){
+// print(doc['name']);
+print(doc.id);
+print(doc.data());
+});
+
+    // print(snap.runtimeType);
     // final unitdata = snap.data() as Map<String,dynamic>;
     
     // print(snap['grade']);
@@ -119,6 +130,8 @@ FirebaseFirestore.instance.collection("events").doc("sample").set(
           children: [
             ElevatedButton(onPressed: adddata, child: const Text('add')),
             ElevatedButton(onPressed: fetchdata, child: const Text('get')),
+            // deleteusr
+             ElevatedButton(onPressed: deleteusr, child: const Text('delete')),
 // fetchdata()
 //             Expanded(child:
 // StreamBuilder(
